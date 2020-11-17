@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userFetchData, userPostData } from '../actions/actions';
+import { withRouter } from 'react-router';
 
 class UserInfo extends Component {
   constructor(props) {
@@ -10,21 +11,21 @@ class UserInfo extends Component {
 
   componentDidMount() {
     this.props.fetchData(
-      `https://jsonplaceholder.typicode.com/users/${this.props.userID}`
+      `https://jsonplaceholder.typicode.com/users/${this.props.match.params.userID}`
     );
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.userID !== prevProps.userID) {
       this.props.fetchData(
-        `https://jsonplaceholder.typicode.com/users/${this.props.userID}`
+        `https://jsonplaceholder.typicode.com/users/${this.props.match.params.userID}`
       );
     }
   }
 
   saveUser() {
     this.props.postData(
-      `https://jsonplaceholder.typicode.com/users/${this.props.userID}`,
+      `https://jsonplaceholder.typicode.com/users/${this.props.match.params.userID}`,
       {
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
@@ -69,4 +70,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(UserInfo));

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { usersFetchData } from '../actions/actions';
-
-import UserInfo from './UserInfo';
+import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 class Users extends Component {
   constructor(props) {
@@ -39,7 +39,10 @@ class Users extends Component {
         </select>
         <br />
         <br />
-        {this.state.id !== 0 && <UserInfo userID={this.state.id} />}
+        {this.state.id !== 0 && (
+          // <Redirect to={{ pathname: '/user', state: { id: '123' } }} />
+          <Redirect to={{ pathname: `/user/${this.state.id}` }} />
+        )}
       </React.Fragment>
     );
   }
@@ -59,4 +62,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Users));
